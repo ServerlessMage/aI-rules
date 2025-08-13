@@ -15,16 +15,47 @@ type Result<T, E extends Error> =
   | { ok: false; error: E };
 ```
 
+Define specific error types for better error handling:
+
+```ts
+class ValidationError extends Error {
+  constructor(
+    message: string,
+    public readonly field: string,
+  ) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}
+
+class NetworkError extends Error {
+  constructor(
+    message: string,
+    public readonly statusCode: number,
+  ) {
+    super(message);
+    this.name = 'NetworkError';
+  }
+}
+
+// Use specific error types in Result
+type ValidationResult<T> = Result<T, ValidationError>;
+type ApiResult<T> = Result<T, NetworkError>;
+```
+
 For example, when parsing JSON:
 
 ```ts
 const parseJson = (
   input: string,
-): Result<unknown, Error> => {
+): Result<unknown, ValidationError> => {
   try {
     return { ok: true, value: JSON.parse(input) };
   } catch (error) {
-    return { ok: false, error: error as Error };
+    return { 
+      ok: false, 
+      error: new ValidationError('Invalid JSON format', 'input') 
+    };
   }
 };
 ```
@@ -37,6 +68,6 @@ const result = parseJson('{"name": "John"}');
 if (result.ok) {
   console.log(result.value);
 } else {
-  console.error(result.error);
+  console.error(`${result.error.name}: ${result.error.message}`);
 }
 ```

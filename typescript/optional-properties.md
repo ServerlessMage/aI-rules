@@ -28,3 +28,24 @@ const func = (options: AuthOptions) => {
   const userId = options.userId;
 };
 ```
+
+Optional properties ARE appropriate for:
+- Configuration objects with sensible defaults
+- Partial updates to existing objects
+- API responses where fields may be missing
+
+```ts
+// OK - partial update
+type UpdateUserRequest = {
+  readonly id: string;
+  readonly name?: string; // Optional for partial update
+  readonly email?: string; // Optional for partial update
+};
+
+// OK - configuration with defaults
+type ApiConfig = {
+  readonly baseUrl: string;
+  readonly timeout?: number; // Has sensible default
+  readonly retries?: number; // Has sensible default
+};
+```

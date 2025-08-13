@@ -1,49 +1,33 @@
 ---
-description: Guidelines for writing modern React components and applications.
+description: General guidelines for writing modern React components and applications.
 globs: ["*.js", "*.jsx", "*.ts", "*.tsx"]
-alwaysApply: false
+alwaysApply: true
 ---
 
-# React Development Best Practices
+This file provides general React guidelines. For specific patterns and detailed examples, see the individual standard files in this directory.
 
-## Components
-- Prefer Functional Components with Hooks over Class Components.
-- Use PascalCase for component names (`MyComponent`).
-- Keep components small and focused (Single Responsibility Principle).
-- Use explicit `import React from 'react';` at the top (though not strictly needed with newer JSX transforms, it's good practice for clarity).
-- Define `propTypes` (if using JavaScript) or TypeScript interfaces for props.
-- Use destructuring for props: `function MyComponent({ name, count }) { ... }`
+## Quick Reference
 
-## State Management
-- Use `useState` for simple component-local state.
-- Use `useReducer` for more complex state logic or when state transitions depend on previous state.
-- Lift state up to the nearest common ancestor when multiple components need access to the same state.
-- For global or shared state, consider Context API (`useContext`) for moderate complexity or dedicated state management libraries (Redux, Zustand, Jotai) for larger applications.
+### Components
+- Use functional components with hooks
+- PascalCase for component names
+- Keep components small and focused
+- Use TypeScript interfaces for props
 
-## Hooks
-- Only call Hooks at the top level of functional components or other custom Hooks.
-- Don't call Hooks inside loops, conditions, or nested functions.
-- Follow the Rules of Hooks. Use ESLint plugins (`eslint-plugin-react-hooks`) to enforce them.
-- Use `useEffect` for side effects (data fetching, subscriptions, manual DOM manipulations). Include a dependency array to control when the effect runs.
-- Use `useCallback` and `useMemo` to memoize functions and values respectively, optimizing performance where necessary (often related to `React.memo` or heavy computations).
+### State Management
+- `useState` for simple local state
+- `useReducer` for complex state logic
+- Context API for moderate shared state
+- External libraries for complex global state
 
-## Keys
-- Provide stable and unique `key` props when rendering lists of elements (`<li key={item.id}>`). Avoid using array indices as keys if the list order can change or items can be inserted/deleted.
+### Performance
+- Use `React.memo` for expensive components
+- `useCallback` and `useMemo` for optimization
+- Code splitting with `React.lazy`
 
-## File Structure
-- Organize files by feature or route (e.g., `/features/Auth`, `/components/common`).
-- Colocate components, styles, tests, and hooks related to a specific feature.
+### Accessibility
+- Semantic HTML elements
+- Proper ARIA attributes
+- Keyboard navigation support
 
-## Styling
-- Choose a consistent styling approach: CSS Modules, Styled Components, Emotion, Tailwind CSS, plain CSS/SASS.
-- Avoid inline styles for anything beyond simple dynamic adjustments.
-
-## Performance
-- Use `React.memo` to memoize components and prevent unnecessary re-renders.
-- Analyze performance with React DevTools Profiler.
-- Consider code splitting (e.g., `React.lazy` and `Suspense`) to reduce initial bundle size.
-
-## Accessibility (a11y)
-- Use semantic HTML elements (`<button>`, `<nav>`, `<main>`).
-- Ensure proper ARIA attributes are used when necessary.
-- Test with keyboard navigation and screen readers.
+For detailed examples and specific patterns, refer to the individual standard files in this directory.
